@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo App</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <form @submit.prevent="addNewTodo">
+        <input
+          type="text"
+          v-model="inputTracker"
+          placeholder="What needs to be done?"
+        />
+      </form>
+      <ul class="todo-list">
+        <li
+          class="todo-item"
+          v-if="isToDoExist"
+          v-for="todo in filteredTodo"
+          :key="todo.id"
+        >
+          <input type="checkbox" v-model="todo.isCompleted" />
+          <span class="todo-title" :class="{completed: todo.isCompleted}"
+            >{{todo.title}}</span
+          >
+          <span class="todo-remove" @click="deleteTodo(todo.id)">
+            &times;
+          </span>
+        </li>
+        <li v-else class="todo-item">No todos found</li>
+      </ul>
+      <div class="actions">
+        <p>{{ totalTodo }} todos</p>
+        <div class="filter">
+          <button
+            @click="setFilterStatus('all')"
+            :class="{ selected: activeStatus === 'all' }"
+          >
+            All
+          </button>
+          <button
+            @click="setFilterStatus('active')"
+            :class="{ selected: activeStatus === 'active' }"
+          >
+            Active
+          </button>
+          <button
+            @click="setFilterStatus('completed')"
+            :class="{ selected: activeStatus === 'completed' }"
+          >
+            Completed
+          </button>
+        </div>
+      </div>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
